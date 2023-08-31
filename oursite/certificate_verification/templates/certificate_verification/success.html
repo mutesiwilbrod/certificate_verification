@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Certificate Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    form {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      padding: 5px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #verification-result,
+    #verification-error {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Attach an event listener to the form submit button
+      $('#verification-form').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        // Get the certificate number entered by the user
+        var certificateNumber = $('#certificate-number').val();
+
+        // Send an AJAX request to the server to verify the certificate
+        $.ajax({
+          type: 'POST',
+          url: '/verify_certificate/',
+          data: {
+            certificate_number: certificateNumber
+          },
+          success: function(response) {
+            if (response.status === 'success') {
+              // Display the certificate information
+              var certificate = response.certificate;
+              $('#recipient-name').text(certificate.recipient_name);
+              $('#issue-date').text(certificate.issue_date);
+              $('#course').text(certificate.course);
+              $('#verification-result').show();
+            } else {
+              // Display an error message
+              $('#verification-error').show();
+            }
+          },
+          error: function() {
+            // Display an error message
+            $('#verification-error').show();
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Certificate Verification</h1>
+  <form id="verification-form">
+    <label for="certificate-number">Certificate Number:</label>
+    <input type="text" id="certificate-number" name="certificate_number" required>
+    <button type="submit">Verify</button>
+  </form>
+
+  <div id="verification-result">
+    <h2>Verification Result</h2>
+    <p>Recipient Name: <span id="recipient-name"></span></p>
+    <p>Issue Date: <span id="issue-date"></span></p>
+    <p>Course: <span id="course"></span></p>
+  </div>
+
+  <div id="verification-error">
+    <p>Invalid Certificate Number. Please try again.</p>
+  </div>
+</body>
+</html>

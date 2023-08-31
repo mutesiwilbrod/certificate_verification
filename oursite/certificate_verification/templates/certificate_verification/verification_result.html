@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verification Result</title>
+</head>
+<body>
+    <h1>Verification Result</h1>
+    {% if certificate %}
+        <p><strong>Recipient Name:</strong> {{ certificate.recipient_name }}</p>
+        <p><strong>Issue Date:</strong> {{ certificate.issue_date }}</p>
+        <p><strong>Course:</strong> {{ certificate.Course }}</p>
+        <!-- Add other fields here -->
+    {% elif not_found %}
+        <p>The certificate was not found.</p>
+    {% endif %}
+    <a href="{% url 'verify_certificate' %}"><button>Go Back to Verification</button></a>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificates List</title>
+</head>
+<body>
+    <h1>Certificates List</h1>
+
+    <ul>
+        {% for certificate in certificates %}
+            <li>
+                <strong>Certificate Number:</strong> {{ certificate.certificate_number }}<br>
+                <strong>Recipient Name:</strong> {{ certificate.recipient_name }}<br>
+                <strong>Issue Date:</strong> {{ certificate.issue_date }}<br>
+                <strong>Course:</strong> {{ certificate.get_Course_display }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
